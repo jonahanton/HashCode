@@ -1,5 +1,4 @@
 import argparse
-import pprint
 
 from book import Book
 from library import Library
@@ -29,15 +28,11 @@ class Solution:
                 ids = [int(x) for x in infile.readline().strip().split()]
                 for id in ids:
                     lib.add_book(self.books[id])
-                lib.update_value(self.D)
+                lib.sort_books()
                 self.libraries[i] = lib
-
 
     
     def run_simulation(self):
-
-        # sort libraries by value
-        libraries_to_sign_up = sorted(self.libraries.items(), key = lambda item: item[1].value, reverse=True)
 
         signed_up_libraries = []
         shipped_books = []
@@ -47,6 +42,22 @@ class Solution:
         while T < self.D:
 
             print(f"{T} / {self.D}")
+
+            # update current value of each library
+            for lib in self.libraries.values():
+                lib.value = 0
+                K = (self.D - T) * lib.M
+                count = 0
+                for book in lib.books:
+                    if count >= K:
+                        continue
+                    if book not in shipped_books:
+                        lib.value += book.score
+                        count += 1
+                lib.value /= lib.T
+            
+            # sort libraries by current value
+            libraries_to_sign_up = sorted(self.libraries.items(), key = lambda item: item[1].value, reverse=True)
 
             # if no libraries are in the process of being signed up
             if len(sign_up_log) == 0:
@@ -62,13 +73,12 @@ class Solution:
                     signed_up_libraries.append(library)
             
             # ship books from all signed up libraries
-            for library in signed_up_libraries:
-                sorted_books = sorted(library.books, key = lambda x: x.score, reverse=True)
+            for lib in signed_up_libraries:
                 count = 0
-                while count < library.M:
-                    if len(sorted_books) == 0:
+                while count < lib.M:
+                    if len(lib.books) == 0:
                         break
-                    book = sorted_books.pop(0)
+                    book = lib.books.pop(0)
                     if not book.shipped:
                         book.shipped = True
                         shipped_books.append(book)

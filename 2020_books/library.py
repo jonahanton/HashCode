@@ -16,11 +16,9 @@ class Library:
     
     def add_book(self, book):
         self.books.append(book)
-    
 
-    def update_value(self, D):
-        self.value = 0
-        for book in sorted(self.books, key = lambda x: x.score, reverse=True)[:D]:
-            self.value += book.score
+    
+    def sort_books(self):
+        self.books.sort(key = lambda x: x.score, reverse=True)
 
     
