@@ -3,8 +3,12 @@ from collections import deque
 
 class Intersection:
 
-    def __init__(self, id, in_streets=[], out_streets=[]):
+    def __init__(self, id, in_streets=None, out_streets=None):
         self.id = id
+        if in_streets is None:
+            in_streets = []
+        if out_streets is None:
+            out_streets = []
         self.in_streets = in_streets
         self.out_streets = out_streets
 

@@ -1,7 +1,9 @@
 class Car:
 
-    def __init__(self, id, path=[]):
+    def __init__(self, id, path=None):
         self.id = id
+        if path is None:
+            path = []
         self.path = path
         if len(self.path) > 0:
             self.loc = path[0]

@@ -6,8 +6,6 @@ class Street:
         self.end = end
         self.time = time
         self.queue = []
-
-        self.jam_time = 0
     
 
     def __repr__(self):
