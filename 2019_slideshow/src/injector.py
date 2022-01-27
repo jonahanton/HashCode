@@ -1,9 +1,11 @@
 from structures import Slide, Image
 from create_slideshow_injector import CreateSlideshowInjector
+from max_vertical import max_vertical
+from output import output
 
 if __name__ == "__main__":
-    # filename = "data/b_lovely_landscapes.txt"
-    filename = "data/c_memorable_moments.txt"
+    filename = "data/b_lovely_landscapes.txt"
+    # filename = "data/c_memorable_moments.txt"
     # filename = "data/a_example.txt"
     with open(filename, 'r') as images_pointer:
         image_strings = images_pointer.readlines()[1:]
@@ -20,7 +22,7 @@ if __name__ == "__main__":
             slide = Slide([image])
             slides.add(slide)
 
-    # print(vertical_images)
+    slides.update(max_vertical(vertical_images))
     print("Slides in slideshow", len(slides))
 
     s = CreateSlideshowInjector(slides)
@@ -28,3 +30,5 @@ if __name__ == "__main__":
 
     print("Algo Score", algoscore)
     # print(slideshow)
+
+    output(slideshow, "Injector_B.txt")
